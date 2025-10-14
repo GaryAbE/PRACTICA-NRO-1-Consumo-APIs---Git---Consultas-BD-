@@ -7,6 +7,11 @@
 </head>
 <body>
   <h1>Busqueda de digimon</h1>
+    <label>Tipo:</label>
+  <select id="tipo">
+    <option value="name">Nombre</option>
+    <option value="level">Nivel</option>
+  </select>
   <input type="text" id="search" placeholder="Buscar por nombre">
         <table id="lista" border="1">
             <thead>
@@ -30,12 +35,22 @@
          digimons = data;
          mostrar(digimons);
       });
-
-    document.getElementById("search").addEventListener("input", e => {
+    
+    if(tipo.value=="level"){
+      document.getElementById("search").addEventListener("input", e => {
+      const texto = e.target.value.toLowerCase();
+      const filtrados = digimons.filter(u => u.level.toLowerCase().includes(texto));
+      mostrar(filtrados);
+    });
+    }
+    else{
+      document.getElementById("search").addEventListener("input", e => {
       const texto = e.target.value.toLowerCase();
       const filtrados = digimons.filter(u => u.name.toLowerCase().includes(texto));
       mostrar(filtrados);
     });
+    }
+
     function mostrar(datos) {
       lista.innerHTML = "";
       datos.forEach(digimon => {
