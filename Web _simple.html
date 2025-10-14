@@ -19,6 +19,33 @@
 
             </tbody>
         </table>
-  <ul id="user-list"></ul>
 </body>
+  <script>
+    const lista= document.querySelector("#lista tbody");
+    let digimons = [];
+
+    fetch('https://digimon-api.vercel.app/api/digimon')
+      .then(res => res.json())
+      .then(data=> {
+         digimons = data;
+         mostrar(digimons);
+      });
+
+    document.getElementById("search").addEventListener("input", e => {
+      const texto = e.target.value.toLowerCase();
+      const filtrados = digimons.filter(u => u.name.toLowerCase().includes(texto));
+      mostrar(filtrados);
+    });
+    function mostrar(datos) {
+      lista.innerHTML = "";
+      datos.forEach(digimon => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${digimon.name}</td>
+          <td>${digimon.level}</td>
+        `;
+        lista.appendChild(fila);
+      });
+    }
+  </script>
 </html>
