@@ -12,7 +12,7 @@
     <option value="name">Nombre</option>
     <option value="level">Nivel</option>
   </select>
-  <input type="text" id="search" placeholder="Buscar por nombre">
+  <input type="text" id="search" placeholder="Buscar">
         <table id="lista" border="1">
             <thead>
                 <tr>
@@ -27,6 +27,8 @@
 </body>
   <script>
     const lista= document.querySelector("#lista tbody");
+    const tipo = document.getElementById("tipo");
+    const search = document.getElementById("search");
     let digimons = [];
 
     fetch('https://digimon-api.vercel.app/api/digimon')
@@ -35,21 +37,18 @@
          digimons = data;
          mostrar(digimons);
       });
-    
+    search.addEventListener("input", ()=>{
+    const texto = search.value.trim().toLowerCase();
     if(tipo.value=="level"){
-      document.getElementById("search").addEventListener("input", e => {
-      const texto = e.target.value.toLowerCase();
       const filtrados = digimons.filter(u => u.level.toLowerCase().includes(texto));
       mostrar(filtrados);
-    });
     }
     else{
-      document.getElementById("search").addEventListener("input", e => {
-      const texto = e.target.value.toLowerCase();
       const filtrados = digimons.filter(u => u.name.toLowerCase().includes(texto));
       mostrar(filtrados);
-    });
     }
+    })
+
 
     function mostrar(datos) {
       lista.innerHTML = "";
@@ -62,5 +61,7 @@
         lista.appendChild(fila);
       });
     }
+
+
   </script>
 </html>
